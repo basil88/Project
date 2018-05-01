@@ -10,8 +10,7 @@ var groups = require("./Group");
 //                decelerations
 //================================================
 
-var listOfUsers = [new User ("david", 11, 20), new User ("avi", 11, 20), new User ("gal", 11, 20), new User ("dov", 11, 20),
-    new User ("shir", 11, 20), new User ("lee", 11, 20), new User ("yoav", 11, 20) ];
+var listOfUsers = [];
 
 //================================================
 //                  functions
@@ -32,6 +31,11 @@ function getSpecificUser (index){
 }
 
 function createNewUser(userInput) {
+    if (userInput === ""){
+        console.log("Name must contain at least one character");
+        main.main();
+
+    }
     if (helpers.isNameValid(listOfUsers, "userName", userInput)){
         console.log("Username Already Taken")
         main.main();
@@ -42,15 +46,32 @@ function createNewUser(userInput) {
         helpers.rl.question("Enter Password: ", enterPassword);
 
         function enterPassword(userInput) {
-            password = userInput;
-            helpers.rl.question("Enter Age: ", enterAge);
-
-            function enterAge(userInput) {
-                age = userInput;
-                listOfUsers.push(new User(username, password, age));
-                console.log(listOfUsers);
-                main.main();
+            if (userInput === "") {
+                console.log("Password must contain at least one character");
+                helpers.rl.question("Enter Password: ", enterPassword);
             }
+            else {
+                password = userInput;
+                helpers.rl.question("Enter Age: ", enterAge);
+                function enterAge(userInput) {
+                    if (userInput === "") {
+                        console.log("age must contain at least one character");
+                        helpers.rl.question("Enter Age: ", enterAge);
+                    }
+                    else if (userInput < 1){
+                        console.log("age must be grater than 1");
+                        helpers.rl.question("Enter Age: ", enterAge);
+                    }
+                    else {
+                        age = userInput;
+                        listOfUsers.push(new User(username, password, age));
+                        main.main();
+                    }
+
+                }
+            }
+
+
         }
     }
 }

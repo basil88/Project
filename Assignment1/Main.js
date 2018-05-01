@@ -12,7 +12,7 @@ var helpers = require("./Helpers");
 //================================================
 
 function main() {
-    /*console.log(
+    console.log(
         "==================Welcome to WeChat!===============\n\n" +
         "WHAT WOULD YOU LIKE TO DO?\n\n" +
         "-------------------User Menu-----------------------\n" +
@@ -27,7 +27,7 @@ function main() {
         "[7] Add A User to A Group\n" +
         "[8] Remove A User From A Group\n" +
         "[9] View All Groups and Their Respective Users\n\n"
-    );*/
+    );
     helpers.rl.question("My Choice is: ", userInputAnswerMenu);
 }
 

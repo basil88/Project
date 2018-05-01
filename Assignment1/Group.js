@@ -10,7 +10,7 @@ var user = require("./User");
 //                decelerations
 //================================================
 
-var listOfGroups = [new Group("sport"), new Group("movies"), new Group("pets"), new Group("fishing")];
+var listOfGroups = [];
 var groupIndexGetter;
 
 //================================================
