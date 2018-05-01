@@ -12,7 +12,7 @@ var helpers = require("./Helpers");
 //================================================
 
 function main() {
-/*    console.log(
+    /*console.log(
         "==================Welcome to WeChat!===============\n\n" +
         "WHAT WOULD YOU LIKE TO DO?\n\n" +
         "-------------------User Menu-----------------------\n" +

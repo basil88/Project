@@ -10,7 +10,7 @@ var user = require("./User");
 //                decelerations
 //================================================
 
-var listOfGroups = [];
+var listOfGroups = [new Group("sport"), new Group("movies"), new Group("pets"), new Group("fishing")];
 var groupIndexGetter;
 
 //================================================
@@ -56,15 +56,17 @@ function addUserToGroup (userInput) {
     if (helpers.isNameValid(listOfGroups, "groupName", userInput)) {
         groupIndexGetter = helpers.getIndexToSplice();
         helpers.rl.question("Enter a Username you would like to add: ", getUsernameToBeAdded);
+
         function getUsernameToBeAdded(userInput) {
-            console.log(listOfGroups[groupIndexGetter].listOfUsersInGroup);
-            if (listOfGroups[groupIndexGetter].listOfUsersInGroup[0].userName === userInput){
-                console.log("User already in group");
+            var temp = userInput;
+            var applicableArrLength = Number(listOfGroups[groupIndexGetter].listOfUsersInGroup.length);
+            if (helpers.isNameValid(user.getListOfUsers(), "userName", temp) && (applicableArrLength === 0 || !userNotInGroup(temp))) {
+                listOfGroups[groupIndexGetter].listOfUsersInGroup.push(user.getSpecificUser(helpers.getIndexToSplice()));
+                console.log(listOfGroups);
                 main.main();
             }
-            else if (helpers.isNameValid(user.getListOfUsers(), "userName", userInput)) {
-                listOfGroups[groupIndexGetter].listOfUsersInGroup.push(user.getSpecificUser(helpers.getIndexToSplice()))
-                console.log(listOfGroups);
+            else if ((helpers.isNameValid(user.getListOfUsers(), "userName", temp) && userNotInGroup(temp))) {
+                console.log("User already assigned to group");
                 main.main();
             }
             else {
@@ -72,10 +74,17 @@ function addUserToGroup (userInput) {
                 main.main();
             }
         }
+
     }
     else {
         console.log("Group does not exist");
         main.main();
+    }
+
+    function userNotInGroup(userInput) {
+        for (var i = 0; i < listOfGroups[groupIndexGetter].listOfUsersInGroup.length; i++) {
+            return listOfGroups[groupIndexGetter].listOfUsersInGroup[i].userName === userInput;
+        }
     }
 }
 
@@ -83,6 +92,7 @@ function deleteUserFromGroup (userInput) {
     if (helpers.isNameValid(listOfGroups, "groupName", userInput)) {
         groupIndexGetter = helpers.getIndexToSplice();
         helpers.rl.question("Enter a Username you would like to remove: ", getUsernameToBeRemoved);
+
         function getUsernameToBeRemoved(userInput) {
             if (helpers.isNameValid(user.getListOfUsers(), "userName", userInput)) {
                 listOfGroups[groupIndexGetter].listOfUsersInGroup.splice(user.getSpecificUser(helpers.getIndexToSplice()),1);
@@ -101,6 +111,18 @@ function deleteUserFromGroup (userInput) {
     }
 }
 
+function deleteUserFromAllGroups(userInput) {
+    for (var i = 0; i < listOfGroups.length; i++){
+        for (var j = 0; j < listOfGroups[i].listOfUsersInGroup.length; i++){
+            if (listOfGroups[i].listOfUsersInGroup[j] !== undefined &&
+                listOfGroups[i].listOfUsersInGroup[j].userName === userInput) {
+                listOfGroups[i].listOfUsersInGroup.splice(j, 1);
+            }
+        }
+    }
+
+}
+
 function printUsersInGroups() {
     for (var i = 0; i < listOfGroups.length; i++) {
         console.log("The Group '" + listOfGroups[i].getName() + "' contains the following users:");
@@ -109,10 +131,6 @@ function printUsersInGroups() {
         }
     }
 }
-
-/*for (var i = 0; i < listOfGroups[groupIndexGetter].listOfUsersInGroup.length; i++){
-    if (listOfGroups[groupIndexGetter].listOfUsersInGroup[i])
-}*/
 
 //================================================
 //                  exports
@@ -124,5 +142,4 @@ module.exports.getListOfGroups = getListOfGroups;
 module.exports.addUserToGroup = addUserToGroup;
 module.exports.deleteUserFromGroup = deleteUserFromGroup;
 module.exports.printUsersInGroups = printUsersInGroups;
-
-
+module.exports.deleteUserFromAllGroups = deleteUserFromAllGroups;
