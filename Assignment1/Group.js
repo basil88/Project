@@ -18,12 +18,12 @@ var groupIndexGetter;
 //================================================
 
 function Group(groupName) {
-    this.groupName = groupName;
+    this.groupObject = groupName;
     this.listOfUsersInGroup = [];
 }
 
 Group.prototype.getName = function(){
-    return this.groupName;
+    return this.groupObject;
 };
 
 function createNewGroup(userInput) {
